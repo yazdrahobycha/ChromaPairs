@@ -66,7 +66,6 @@ const gameStagesMachine = machine.withConfig({
                             '-=1500',
                             1000
                         );
-                        console.log(gridElements);
                         gridElements.forEach((el) => {
                             hoverBtnEventListeners(el, 'playing');
                         });
@@ -178,17 +177,28 @@ const gameStagesMachine = machine.withConfig({
                 }, timeout);
             });
         },
-        freezeChosenCards: ({ firstCard, secondCard, pairsFound }, event) => {
-            [firstCard, secondCard].forEach((element) =>
-                element.classList.add('clicked')
-            );
+        freezeChosenCards: ({ firstCard, secondCard, pairsFound }) => {
+            [firstCard, secondCard].forEach((element) => {
+                element.classList.add('clicked');
+            });
             if (pairsFound !== 8) {
-                hoverAnimation(secondCard, 1.0, 600, 300);
+                hoverAnimation(secondCard, 1.0, 600, 300).add(
+                    {
+                        targets: [firstCard, secondCard],
+                        opacity: [
+                            { value: 0, duration: 100 },
+                            { value: 0.75, duration: 50 },
+                            { value: 0, duration: 100 },
+                            { value: 1, duration: 50 },
+                        ],
+                    },
+                    '-=300'
+                );
             }
         },
-        changeCardColor: ({ twoCardOpenedVar }, { element }) => {
+        changeCardColor: ({ firstCard, twoCardOpenedVar }, { element }) => {
             if (!twoCardOpenedVar) {
-                element.classList.add('opened');
+                firstCard.classList.add('opened');
             }
             element.firstElementChild.style.backgroundColor =
                 element.dataset.color;
@@ -225,7 +235,7 @@ const gameStagesMachine = machine.withConfig({
             highScore: 0,
             firstCard: undefined,
             secondCard: undefined,
-            pairsFound: 7,
+            pairsFound: 0,
         }),
     },
     guards: {
@@ -242,9 +252,7 @@ const gameStagesMachine = machine.withConfig({
 });
 
 // Start a service
-const gameStagesService = interpret(gameStagesMachine).onTransition((state) =>
-    console.log(state.value)
-);
+const gameStagesService = interpret(gameStagesMachine);
 gameStagesService.start();
 window.gameStagesService = gameStagesService;
 window.addEventListener('DOMContentLoaded', (event) => {

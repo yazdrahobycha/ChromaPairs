@@ -10,7 +10,7 @@ const gameStagesMachine = createMachine({
         highScore: 0,
         firstCard: undefined,
         secondCard: undefined,
-        pairsFound: 7,
+        pairsFound: 0,
     },
     states: {
         idle: {
