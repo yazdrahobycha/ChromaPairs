@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
     mode: mode,
     entry: {
-        bundle: path.resolve(__dirname, 'src/index.js'),
+        bundle: path.resolve(__dirname, 'src/js/index.js'),
     },
     output: {
         path: path.resolve(__dirname, 'dist'),

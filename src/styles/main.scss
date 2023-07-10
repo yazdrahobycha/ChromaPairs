@@ -41,7 +41,7 @@ body {
     letter-spacing: 0.1rem;
 }
 
-.start_btn_outer {
+.btn_outer {
     cursor: pointer;
     margin: 1rem auto 0 auto;
     display: grid;
@@ -52,7 +52,7 @@ body {
     background-color: white;
 }
 
-.start_btn_inner {
+.btn_inner {
     text-transform: uppercase;
     user-select: none;
     display: grid;
@@ -63,7 +63,7 @@ body {
     background-color: black;
 }
 
-.start_btn_text {
+.btn_text {
     font-size: 0.8rem;
     text-align: center;
 }
@@ -72,13 +72,14 @@ body {
     overflow: hidden;
 }
 
-.grid_element_text {
-    opacity: 1;
-}
-
 .grid_element_inner {
     padding: 10px;
 }
+
+.grid_element_text {
+    opacity: 0;
+}
+
 
 .grid_container {
     display: grid;
