@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 let mode = 'development';
 
 if (process.env.NODE_ENV === 'production') {
@@ -14,6 +16,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].[contenthash].js',
+        publicPath: '/',
         clean: true,
         assetModuleFilename: '[name][ext]',
     },
@@ -27,7 +30,7 @@ module.exports = {
         compress: true,
         historyApiFallback: true,
     },
-    devtool: 'inline-source-map',
+    devtool: false,
     module: {
         rules: [
             {
@@ -50,7 +53,7 @@ module.exports = {
                 },
             },
             {
-                test: /\.(svg)$/i,
+                test: /\.(svg|png)$/i,
                 type: 'asset/resource',
             },
             {
@@ -60,10 +63,40 @@ module.exports = {
         ],
     },
     plugins: [
+        // new WebpackPwaManifest({
+        //     name: 'ChromaPairs',
+        //     short_name: 'CP',
+        //     description: 'Try to guess!',
+        //     theme_color: '#ffffff',
+        //     background_color: '#000000',
+        //     display: 'standalone',
+
+        //     crossorigin: 'use-credentials',
+        //     icons: [
+        //         {
+        //             src: path.resolve('src/assets/icons/icon-512x512.png'),
+        //             sizes: [96, 128, 192, 256, 384, 512], 
+        //         },
+        //     ],
+        // }),
         new HtmlWebpackPlugin({
             title: 'Webpack App',
             filename: 'index.html',
             template: 'src/template.html',
+            favicon: 'src/assets/icons/icon-128x128.png',
         }),
+        // new WorkboxPlugin.GenerateSW({
+        //     clientsClaim: true,
+        //     skipWaiting: true,
+        //     runtimeCaching: [
+        //         {
+        //             urlPattern: /https:\/\/kit\.fontawesome\.com\/.*/,
+        //             handler: 'StaleWhileRevalidate',
+        //             options: {
+        //                 cacheName: 'font-awesome',
+        //             },
+        //         },
+        //     ],
+        // }),
     ],
 };

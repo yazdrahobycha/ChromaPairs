@@ -4,6 +4,19 @@ import { interpret, assign } from 'xstate';
 import anime from 'animejs';
 import chroma from 'chroma-js';
 
+// if ('serviceWorker' in navigator) {
+//     window.addEventListener('load', () => {
+//         navigator.serviceWorker
+//             .register('/service-worker.js')
+//             .then((registration) => {
+//                 console.log('SW registered: ', registration);
+//             })
+//             .catch((registrationError) => {
+//                 console.log('SW registration failed: ', registrationError);
+//             });
+//     });
+// }
+
 const spinner = document.querySelector('.spinner');
 const startBtn = document.querySelector('.start_btn_outer');
 const innerStartBtn = startBtn.querySelector('.start_btn_inner');
@@ -155,11 +168,11 @@ const gameStagesMachine = machine.withConfig({
                 );
                 shakeAnimateBtn(timelineforShake, elementsToReset);
                 gridElements.forEach((gridItem) => {
-                    gridItem.classList.add('clicked');
+                    gridItem.classList.add('disabled');
                 });
                 setTimeout(() => {
                     gridElements.forEach((gridItem) => {
-                        gridItem.classList.remove('clicked');
+                        gridItem.classList.remove('disabled');
                     });
                 }, timeout);
             }
@@ -178,23 +191,41 @@ const gameStagesMachine = machine.withConfig({
             });
         },
         freezeChosenCards: ({ firstCard, secondCard, pairsFound }) => {
-            [firstCard, secondCard].forEach((element) => {
+            const elements = [firstCard, secondCard];
+            const elementsInner = [
+                firstCard.firstElementChild,
+                secondCard.firstElementChild,
+            ];
+            const elementsText = [
+                firstCard.querySelector('.grid_element_text'),
+                secondCard.querySelector('.grid_element_text'),
+            ];
+            elements.forEach((element) => {
                 element.classList.add('clicked');
             });
+            let tml = anime.timeline({loop: false})
             if (pairsFound !== 8) {
-                hoverAnimation(secondCard, 1.0, 600, 300).add(
-                    {
-                        targets: [firstCard, secondCard],
-                        opacity: [
-                            { value: 0, duration: 100 },
-                            { value: 0.75, duration: 50 },
-                            { value: 0, duration: 100 },
-                            { value: 1, duration: 50 },
-                        ],
-                    },
-                    '-=300'
-                );
+                tml = hoverAnimation(secondCard, 1.0, 600, 300)
             }
+            tml.add(
+                {
+                    targets: elementsInner,
+                    backgroundColor: '#FFF',
+                    duration: 1000,
+                },
+            ).add(
+                {
+                    targets: elementsText,
+                    color: '#000',
+                    duration: 1000,
+                    begin: function () {
+                        elementsText.forEach((element) => {
+                            element.textContent = 'Paired!';
+                        });
+                    },
+                },
+                '-=700'
+            );
         },
         changeCardColor: ({ firstCard, twoCardOpenedVar }, { element }) => {
             if (!twoCardOpenedVar) {
@@ -327,7 +358,10 @@ function hoverBtnEventListeners(elementBtn, elementStateType) {
     elementBtn.addEventListener(
         'mouseenter',
         () => {
-            if (elementBtn.classList.contains('clicked')) {
+            if (
+                elementBtn.classList.contains('clicked') ||
+                elementBtn.classList.contains('disabled')
+            ) {
                 return;
             }
             hoverAnimation(elementBtn, 1.2, 800, 400);
@@ -337,7 +371,10 @@ function hoverBtnEventListeners(elementBtn, elementStateType) {
     elementBtn.addEventListener(
         'mouseleave',
         () => {
-            if (elementBtn.classList.contains('clicked')) {
+            if (
+                elementBtn.classList.contains('clicked') ||
+                elementBtn.classList.contains('disabled')
+            ) {
                 return;
             }
             let innerBtnSize = 1.0;
@@ -370,7 +407,8 @@ function hoverBtnEventListeners(elementBtn, elementStateType) {
         () => {
             if (
                 elementBtn.classList.contains('clicked') ||
-                elementBtn.classList.contains('disabled')
+                elementBtn.classList.contains('disabled') ||
+                !mouseDown
             ) {
                 return;
             }
