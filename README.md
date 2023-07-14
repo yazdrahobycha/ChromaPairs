@@ -1,6 +1,6 @@
-# Frontend Mentor - Age calculator app solution
+# Kottans - Memory Pair Game
 
-This is a solution to the [Age calculator app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/age-calculator-app-dF9DFFpj-Q). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
+This is a solution to the [Memory Pair Game by Kottans](https://github.com/kottans/frontend/blob/2022_UA/tasks/memory-pair-game.md). Kottans is an amazing FE community, check them out!
 
 ## Table of contents
 
@@ -195,4 +195,3 @@ During the course of this project, I have identified several areas that I would 
 ## Author
 
 -   Telegram - [@yazdrahobycha](https://t.me/yazdrahobb)
-
