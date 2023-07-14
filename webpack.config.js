@@ -63,40 +63,40 @@ module.exports = {
         ],
     },
     plugins: [
-        // new WebpackPwaManifest({
-        //     name: 'ChromaPairs',
-        //     short_name: 'CP',
-        //     description: 'Try to guess!',
-        //     theme_color: '#ffffff',
-        //     background_color: '#000000',
-        //     display: 'standalone',
+        new WebpackPwaManifest({
+            name: 'ChromaPairs',
+            short_name: 'CP',
+            description: 'Try to guess!',
+            theme_color: '#ffffff',
+            background_color: '#000000',
+            display: 'standalone',
 
-        //     crossorigin: 'use-credentials',
-        //     icons: [
-        //         {
-        //             src: path.resolve('src/assets/icons/icon-512x512.png'),
-        //             sizes: [96, 128, 192, 256, 384, 512], 
-        //         },
-        //     ],
-        // }),
+            crossorigin: 'use-credentials',
+            icons: [
+                {
+                    src: path.resolve('src/assets/icons/icon-512x512.png'),
+                    sizes: [96, 128, 192, 256, 384, 512],
+                },
+            ],
+        }),
         new HtmlWebpackPlugin({
             title: 'Webpack App',
             filename: 'index.html',
             template: 'src/template.html',
             favicon: 'src/assets/icons/icon-128x128.png',
         }),
-        // new WorkboxPlugin.GenerateSW({
-        //     clientsClaim: true,
-        //     skipWaiting: true,
-        //     runtimeCaching: [
-        //         {
-        //             urlPattern: /https:\/\/kit\.fontawesome\.com\/.*/,
-        //             handler: 'StaleWhileRevalidate',
-        //             options: {
-        //                 cacheName: 'font-awesome',
-        //             },
-        //         },
-        //     ],
-        // }),
+        new WorkboxPlugin.GenerateSW({
+            clientsClaim: true,
+            skipWaiting: true,
+            runtimeCaching: [
+                {
+                    urlPattern: /https:\/\/kit\.fontawesome\.com\/.*/,
+                    handler: 'StaleWhileRevalidate',
+                    options: {
+                        cacheName: 'font-awesome',
+                    },
+                },
+            ],
+        }),
     ],
 };

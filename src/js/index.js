@@ -4,18 +4,18 @@ import { interpret, assign } from 'xstate';
 import anime from 'animejs';
 import chroma from 'chroma-js';
 
-// if ('serviceWorker' in navigator) {
-//     window.addEventListener('load', () => {
-//         navigator.serviceWorker
-//             .register('/service-worker.js')
-//             .then((registration) => {
-//                 console.log('SW registered: ', registration);
-//             })
-//             .catch((registrationError) => {
-//                 console.log('SW registration failed: ', registrationError);
-//             });
-//     });
-// }
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker
+            .register('/service-worker.js')
+            .then((registration) => {
+                console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+                console.log('SW registration failed: ', registrationError);
+            });
+    });
+}
 
 const spinner = document.querySelector('.spinner');
 const startBtn = document.querySelector('.start_btn_outer');
