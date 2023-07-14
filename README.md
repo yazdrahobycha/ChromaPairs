@@ -52,7 +52,7 @@ This is a solution to the [Memory Pair Game by Kottans](https://github.com/kotta
 
 ### Links
 
--   [Live Site](https://app.netlify.com/sites/stupendous-cranachan-107ee2/overview)
+-   [Live Site](https://stupendous-cranachan-107ee2.netlify.app/)
 
 ## My process
 
