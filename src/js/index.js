@@ -203,17 +203,15 @@ const gameStagesMachine = machine.withConfig({
             elements.forEach((element) => {
                 element.classList.add('clicked');
             });
-            let tml = anime.timeline({loop: false})
+            let tml = anime.timeline({ loop: false });
             if (pairsFound !== 8) {
-                tml = hoverAnimation(secondCard, 1.0, 600, 300)
+                tml = hoverAnimation(secondCard, 1.0, 600, 300);
             }
-            tml.add(
-                {
-                    targets: elementsInner,
-                    backgroundColor: '#FFF',
-                    duration: 1000,
-                },
-            ).add(
+            tml.add({
+                targets: elementsInner,
+                backgroundColor: '#FFF',
+                duration: 1000,
+            }).add(
                 {
                     targets: elementsText,
                     color: '#000',
@@ -285,7 +283,6 @@ const gameStagesMachine = machine.withConfig({
 // Start a service
 const gameStagesService = interpret(gameStagesMachine);
 gameStagesService.start();
-window.gameStagesService = gameStagesService;
 window.addEventListener('DOMContentLoaded', (event) => {
     setTimeout(() => {
         gameStagesService.send({ type: 'CONTENT_LOADED' });
@@ -354,13 +351,17 @@ const hoverAnimation = (el, scale, duration, elasticity) => {
 };
 function hoverBtnEventListeners(elementBtn, elementStateType) {
     const innerElementBtn = elementBtn.firstElementChild;
-
+    const isTouchScreen =
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        navigator.msMaxTouchPoints > 0;
     elementBtn.addEventListener(
         'mouseenter',
         () => {
             if (
                 elementBtn.classList.contains('clicked') ||
-                elementBtn.classList.contains('disabled')
+                elementBtn.classList.contains('disabled') ||
+                isTouchScreen
             ) {
                 return;
             }
@@ -373,7 +374,8 @@ function hoverBtnEventListeners(elementBtn, elementStateType) {
         () => {
             if (
                 elementBtn.classList.contains('clicked') ||
-                elementBtn.classList.contains('disabled')
+                elementBtn.classList.contains('disabled') ||
+                isTouchScreen
             ) {
                 return;
             }
